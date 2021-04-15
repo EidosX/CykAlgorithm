@@ -1,5 +1,17 @@
 module Main where
 
+import System.Environment (getArgs) 
+import System.Exit (exitFailure) 
+import Control.Monad
+import Automata.Parser
+import Automata.Automata
+  
 main :: IO ()
 main = do
-  return ()
+  args <- getArgs
+  when (length args /= 2) $ putStrLn "INVALID ARGUMENTS" >> exitFailure
+
+  let [path, expr] = args
+  automata <- parseAutomata <$> readFile path
+  if not $ isDeterministic automata then putStrLn "ERROR"
+  else putStrLn $ if accepts automata expr then "YES" else "NO"
