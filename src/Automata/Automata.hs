@@ -2,6 +2,7 @@ module Automata.Automata where
 
 import Automata.Types 
 import Data.List (nub)
+import Data.Maybe (listToMaybe)
 
 states :: Automata -> [State]
 states a = nub $ origins ++ dests
@@ -25,6 +26,10 @@ deltaTransitions a orig sym stTop =
               symbol   == sym  &&
               stackTop == stTop
          ) $ transitions a
+
+-- Use this with deterministic automatas guaranteed to have 0 or 1 transition
+deltaTransition :: Automata -> State -> Symbol -> StackSymbol -> Maybe Transition
+deltaTransition a st s ss = listToMaybe $ deltaTransitions a st s ss
 
 isDeterministic :: Automata -> Bool
 isDeterministic a = and [

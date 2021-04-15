@@ -26,6 +26,8 @@ data Automata = Automata {
   entryStackSym :: StackSymbol
 }
 
+type Stack = [StackSymbol]
+
 -- For debug purposes
 instance Show Symbol where show (Symbol s) = s
                            show Epsilon    = "ε"
