@@ -25,6 +25,8 @@ parseTransition s = Transition (State origin) (State dest)
 
 parseAutomata :: String -> Automata
 parseAutomata str = Automata {
-  transitions = parseTransition <$> init (lines str),
-  finalStates = parseFinalStates . last $ lines str
-}
+  finalStates   = parseFinalStates . last $ lines str,
+  entryState    = origin   $ head transitions,
+  entryStackSym = stackTop $ head transitions,
+  transitions
+} where transitions = parseTransition <$> init (lines str)

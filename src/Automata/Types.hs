@@ -20,10 +20,10 @@ data Transition = Transition {
 }
 
 data Automata = Automata {
-  transitions  :: [Transition],
-  finalStates  :: [State],
-  entryState   :: State,
-  entryStackSt :: StackSymbol
+  transitions   :: [Transition],
+  finalStates   :: [State],
+  entryState    :: State,
+  entryStackSym :: StackSymbol
 }
 
 -- For debug purposes
@@ -39,6 +39,10 @@ instance Show Transition where
           nst            = intercalate "." . map (\(StackSymbol a) -> a) $ newStackTop t
 
 instance Show Automata where
-  show Automata {transitions, finalStates} =
+  show Automata {entryStackSym, entryState, transitions, finalStates} =
     "Transitions: \n" <> unlines (("  " ++) . show <$> transitions) <>
-    "Final States: " <> intercalate ", " ((\(State a) -> a) <$> finalStates)
+    "Entry Stack State: " <> entryStackSym' <> "\n" <>
+    "Entry State: " <> entryState' <> "\n" <>
+    "Final States: " <> intercalate ", " ((\(State a) -> a) <$> finalStates) <> "\n"
+    where State entryState' = entryState
+          StackSymbol entryStackSym' = entryStackSym
