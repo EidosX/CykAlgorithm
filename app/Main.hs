@@ -2,7 +2,7 @@ module Main where
 
 import System.Environment (getArgs) 
 import System.Exit (exitFailure) 
-import Control.Monad
+import Control.Monad (when)
 import Automata.Parser
 import Automata.Automata
   
