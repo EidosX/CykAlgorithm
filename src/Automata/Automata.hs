@@ -25,3 +25,12 @@ deltaTransitions a orig sym stTop =
               symbol   == sym  &&
               stackTop == stTop
          ) $ transitions a
+
+isDeterministic :: Automata -> Bool
+isDeterministic a = and [
+    let f symbol = deltaTransitions a st symbol stSym in
+    length (f sym ++ f Epsilon) <= 1 -- δ(q, a, X) + δ(q, ε, X)
+    | st    <- states a, 
+      sym   <- symbols a, 
+      stSym <- stackSymbols a
+  ]
