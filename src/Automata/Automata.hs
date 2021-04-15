@@ -39,3 +39,29 @@ isDeterministic a = and [
       sym   <- symbols a, 
       stSym <- stackSymbols a
   ]
+
+-- Only works if all symbols consist of one character!
+accepts :: Automata -> [Char] -> Bool
+accepts a = acceptsSymbols a . map (\c -> Symbol [c])
+
+-- Only works with deterministic automatas!
+acceptsSymbols :: Automata -> [Symbol] -> Bool
+acceptsSymbols a str' = f str' (entryState a) [entryStackSym a] where
+  f :: [Symbol] -> State -> Stack -> Bool
+
+  -- We ignore epsilons in the string
+  f (Epsilon : str) state xs = f str state xs
+
+  -- If string is not finished and current symbol has a transition, we take it. 
+  f (s : str) state (x : xs) | Just t <- deltaTransition a state s x =
+    f str (dest t) (newStackTop t ++ xs)
+  
+  -- If string is finished and we're on a final state, we've won!
+  f [] state _ | state `elem` finalStates a = True
+
+  -- If there is an epsilon transition, we take it.
+  f str state (x : xs) | Just t <- deltaTransition a state Epsilon x =
+    f str (dest t) (newStackTop t ++ xs)
+  
+  -- Finally, if nothing worked, we've lost.
+  f _ _ _ = False
