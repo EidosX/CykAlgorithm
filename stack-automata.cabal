@@ -1,0 +1,42 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.33.0.
+--
+-- see: https://github.com/sol/hpack
+--
+-- hash: 218df0a1721c2ca1cdaaf5da29d470e03cc542f30eeee0c38597a82aac43f998
+
+name:           stack-automata
+version:        0.1.0.0
+homepage:       https://github.com/RedRikudo/StackAutomata#readme
+bug-reports:    https://github.com/RedRikudo/StackAutomata/issues
+author:         Diego Imbert
+maintainer:     imbert.diego05000@gmail.com
+build-type:     Simple
+
+source-repository head
+  type: git
+  location: https://github.com/RedRikudo/StackAutomata
+
+library
+  exposed-modules:
+      Lib
+  other-modules:
+      Paths_stack_automata
+  hs-source-dirs:
+      src
+  build-depends:
+      base >=4.14 && <5
+  default-language: Haskell2010
+
+executable stack-automata-exe
+  main-is: Main.hs
+  other-modules:
+      Paths_stack_automata
+  hs-source-dirs:
+      app
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N -Wall -O3
+  build-depends:
+      base >=4.14 && <5
+    , stack-automata
+  default-language: Haskell2010

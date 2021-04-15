@@ -1,0 +1,24 @@
+name:                stack-automata
+version:             0.1.0.0
+github:              "RedRikudo/StackAutomata"
+author:              "Diego Imbert"
+maintainer:          "imbert.diego05000@gmail.com"
+
+dependencies:
+- base >= 4.14 && < 5
+
+library:
+  source-dirs: src
+
+executables:
+  stack-automata-exe:
+    main: Main.hs
+    source-dirs: app
+    ghc-options:
+      - -threaded
+      - -rtsopts
+      - -with-rtsopts=-N
+      - -Wall
+      - -O3
+    dependencies:
+      - stack-automata
