@@ -1,4 +1,4 @@
-module Automata.Parser (parseAutomata) where
+module Automata.Parser (parseAutomata, parseSymbol) where
 
 import Automata.Types
 import Data.List.Split (wordsBy)

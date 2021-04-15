@@ -1,6 +1,7 @@
 module Automata.Automata where
 
 import Automata.Types 
+import Automata.Parser
 import Data.List (nub)
 import Data.Maybe (listToMaybe)
 
@@ -15,7 +16,7 @@ isDeterministic a = and [
 
 -- Only works if all symbols consist of one character!
 accepts :: Automata -> [Char] -> Bool
-accepts a = acceptsSymbols a . map (\c -> Symbol [c])
+accepts a = acceptsSymbols a . map (\c -> parseSymbol [c])
 
 -- Only works with deterministic automatas!
 acceptsSymbols :: Automata -> [Symbol] -> Bool
