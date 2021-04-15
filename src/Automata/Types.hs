@@ -20,8 +20,10 @@ data Transition = Transition {
 }
 
 data Automata = Automata {
-  transitions :: [Transition],
-  finalStates :: [State]
+  transitions  :: [Transition],
+  finalStates  :: [State],
+  entryState   :: State,
+  entryStackSt :: StackSymbol
 }
 
 -- For debug purposes
