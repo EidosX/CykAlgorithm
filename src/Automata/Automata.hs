@@ -28,8 +28,8 @@ deltaTransitions a orig sym stTop =
          ) $ transitions a
 
 -- Use this with deterministic automatas guaranteed to have 0 or 1 transition
-deltaTransition :: Automata -> State -> Symbol -> StackSymbol -> Maybe Transition
-deltaTransition a st s ss = listToMaybe $ deltaTransitions a st s ss
+transition :: Automata -> State -> Symbol -> StackSymbol -> Maybe Transition
+transition a st s ss = listToMaybe $ deltaTransitions a st s ss
 
 isDeterministic :: Automata -> Bool
 isDeterministic a = and [
@@ -53,14 +53,14 @@ acceptsSymbols a str' = f str' (entryState a) [entryStackSym a] where
   f (Epsilon : str) state xs = f str state xs
 
   -- If string is not finished and current symbol has a transition, we take it. 
-  f (s : str) state (x : xs) | Just t <- deltaTransition a state s x =
+  f (s : str) state (x : xs) | Just t <- transition a state s x =
     f str (dest t) (newStackTop t ++ xs)
   
   -- If string is finished and we're on a final state, we've won!
   f [] state _ | state `elem` finalStates a = True
 
   -- If there is an epsilon transition, we take it.
-  f str state (x : xs) | Just t <- deltaTransition a state Epsilon x =
+  f str state (x : xs) | Just t <- transition a state Epsilon x =
     f str (dest t) (newStackTop t ++ xs)
   
   -- Finally, if nothing worked, we've lost.
