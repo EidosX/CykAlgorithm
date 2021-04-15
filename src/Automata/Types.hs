@@ -3,13 +3,13 @@ module Automata.Types where
 import Data.List (intercalate)
 
 data State = State String
-  deriving Eq
+  deriving (Eq, Show)
 
 data Symbol = Symbol String | Epsilon
   deriving Eq
 
 data StackSymbol = StackSymbol String
-  deriving Eq
+  deriving (Eq, Show)
 
 data Transition = Transition {
   origin      :: State,
