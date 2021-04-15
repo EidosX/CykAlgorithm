@@ -1,3 +1,4 @@
 .vscode
 dist-newstyle
 .stack-work
+*.cabal

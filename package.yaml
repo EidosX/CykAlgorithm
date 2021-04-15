@@ -5,7 +5,13 @@ author:              "Diego Imbert"
 maintainer:          "imbert.diego05000@gmail.com"
 
 dependencies:
-- base >= 4.14 && < 5
+  - base >= 4.14 && < 5
+
+default-extensions:
+  - MultiWayIf
+  - LambdaCase
+  - ScopedTypeVariables
+  - NamedFieldPuns
 
 library:
   source-dirs: src
