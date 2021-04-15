@@ -2,14 +2,12 @@ module Automata.Types where
 
 import Data.List (intercalate)
 
-data State = State String
-  deriving (Eq, Show)
-
-data Symbol = Symbol String | Epsilon
-  deriving Eq
-
-data StackSymbol = StackSymbol String
-  deriving (Eq, Show)
+data Automata = Automata {
+  transitions   :: [Transition],
+  finalStates   :: [State],
+  entryState    :: State,
+  entryStackSym :: StackSymbol
+}
 
 data Transition = Transition {
   origin      :: State,
@@ -19,12 +17,17 @@ data Transition = Transition {
   newStackTop :: [StackSymbol]
 }
 
-data Automata = Automata {
-  transitions   :: [Transition],
-  finalStates   :: [State],
-  entryState    :: State,
-  entryStackSym :: StackSymbol
-}
+
+
+data State = State String
+  deriving (Eq, Show)
+
+data Symbol = Symbol String | Epsilon
+  deriving Eq
+
+data StackSymbol = StackSymbol String
+  deriving (Eq, Show)
+
 
 type Stack = [StackSymbol]
 

@@ -3,6 +3,14 @@ module Automata.Parser (parseAutomata) where
 import Automata.Types
 import Data.List.Split (wordsBy)
 
+parseAutomata :: String -> Automata
+parseAutomata str = Automata {
+  finalStates   = parseFinalStates . last $ lines str,
+  entryState    = origin   $ head transitions,
+  entryStackSym = stackTop $ head transitions,
+  transitions
+} where transitions = parseTransition <$> init (lines str)
+
 parseSymbol :: String -> Symbol
 parseSymbol "%" = Epsilon
 parseSymbol  s  = Symbol s
@@ -22,11 +30,3 @@ parseTransition s = Transition (State origin) (State dest)
                                (StackSymbol stackTop) 
                                (parseStackSymList newStackTop)
   where [origin, symbol, stackTop, newStackTop, dest] = words s
-
-parseAutomata :: String -> Automata
-parseAutomata str = Automata {
-  finalStates   = parseFinalStates . last $ lines str,
-  entryState    = origin   $ head transitions,
-  entryStackSym = stackTop $ head transitions,
-  transitions
-} where transitions = parseTransition <$> init (lines str)
