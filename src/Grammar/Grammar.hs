@@ -17,4 +17,4 @@ vars g = nub $ entryVar g
              ++ (rules g >>= lefts . to)
 
 terminals :: Grammar -> [Terminal]
-terminals g = rules g >>= rights . to
+terminals g = nub $ rules g >>= rights . to
