@@ -1,4 +1,4 @@
-module Grammar.CNFMaker (makeCNF) where
+module Grammar.CNFMaker where
 
 import Grammar.Types
 import Grammar.Grammar
@@ -21,12 +21,7 @@ removeNonSolitaryTerminals :: Grammar -> Grammar
 removeNonSolitaryTerminals g' = g' {rules = rules g' >>= f}
   where f :: Rule -> [Rule]
         f r | length (to r) <= 1 = [r]
-        f r = r {to = Left <$> rVars ++ terminalVars} : terminalRules
-          where
-            terminalToVar (Terminal sym) = createNewVar (vars g') $ "X" ++ sym
-            terminalVars = map terminalToVar rTerminals
-            terminalRules = map (\t -> Rule (terminalToVar t) [Right t]) rTerminals
-            (rVars, rTerminals) = partitionEithers $ to r
+        f r = undefined
 
 removeLongRHS :: Grammar -> Grammar
 removeLongRHS g' = undefined
