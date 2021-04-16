@@ -1,17 +1,17 @@
 module Grammar.Types where
 
-data Variable = Variable String
+data Var = Var String
   deriving (Eq, Show)
 
 data Terminal = Terminal String
   deriving (Eq, Show)
 
-data Transition = Transition {
-  from :: Variable,
-  to   :: [Either Variable Terminal]
+data Rule = Rule {
+  from :: Var,
+  to   :: [Either Var Terminal]
 }
 
 data Grammar = Grammar {
-  transitions   :: [Transition],
-  entryVariable :: Variable
+  rules    :: [Rule],
+  entryVar :: Var
 }

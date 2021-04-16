@@ -5,16 +5,16 @@ import Data.List.Split (wordsBy)
 
 parseGrammar :: String -> Grammar
 parseGrammar str = Grammar {
-  transitions = parseTransition variables <$> lines',
-  entryVariable = head variables
-} where variables = Variable . head . words <$> lines'
+  rules = parseRule vars <$> lines',
+  entryVar = head vars
+} where vars   = Var . head . words <$> lines'
         lines' = filter (/= "") $ lines str
 
-parseTransition :: [Variable] -> String -> Transition
-parseTransition vars str = Transition (Variable from') (parseSeq to') 
+parseRule :: [Var] -> String -> Rule
+parseRule vars str = Rule (Var from') (parseSeq to') 
   where 
     [from', to'] = words str
     parseSeq "%"  = []
     parseSeq str' = f <$> wordsBy (== '.') str'
-      where f v | Variable v `elem` vars = Left  $ Variable v
-            f t                          = Right $ Terminal t
+      where f v | Var v `elem` vars = Left  $ Var v
+            f t                     = Right $ Terminal t

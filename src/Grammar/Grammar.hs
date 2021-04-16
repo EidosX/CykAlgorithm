@@ -5,16 +5,16 @@ import Data.List (nub)
 import Data.Either (lefts, rights)
 
 isCNF :: Grammar -> Bool
-isCNF Grammar {transitions, entryVariable} = all valid transitions where 
-  valid (Transition _ [Right _]        )                                   = True
-  valid (Transition _ [Left v, Left v']) | entryVariable `notElem` [v, v'] = True
-  valid (Transition v []               ) | v == entryVariable              = True
+isCNF Grammar {rules, entryVar} = all valid rules where 
+  valid (Rule _ [Right _]        )                              = True
+  valid (Rule _ [Left v, Left v']) | entryVar `notElem` [v, v'] = True
+  valid (Rule v []               ) | v == entryVar              = True
   valid _ = False
 
-variables :: Grammar -> [Variable]
-variables g = nub $ entryVariable g 
-                  : map from (transitions g) 
-                  ++ (transitions g >>= lefts . to)
+vars :: Grammar -> [Var]
+vars g = nub $ entryVar g 
+             : map from (rules g) 
+             ++ (rules g >>= lefts . to)
 
 terminals :: Grammar -> [Terminal]
-terminals g = transitions g >>= rights . to
+terminals g = rules g >>= rights . to
