@@ -1,10 +1,10 @@
 module Grammar.Types where
 
 data Variable = Variable String
-  deriving Eq
+  deriving (Eq, Show)
 
 data Terminal = Terminal String
-  deriving Eq
+  deriving (Eq, Show)
 
 data Transition = Transition {
   from :: Variable,
