@@ -11,7 +11,7 @@ Dans la racine du projet, ```./bin/stack-automata path/to/automata expression```
 
 La fonction main se trouve dans `./app`.  
 `./src` contient des modules utilisés par main.  
-Le dossier `automatas` contient des automates de test.  
+Le dossier `tests/res` contient des automates de test.  
 Les options de compilations et les dépendances sont dans `package.yaml`.
 
 ## Build (Pas nécessaire)
