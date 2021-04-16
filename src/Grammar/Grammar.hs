@@ -9,7 +9,7 @@ isCNF Grammar {transitions, entryVariable} = all valid transitions where
   valid (Transition _ [Right _]        )                                   = True
   valid (Transition _ [Left v, Left v']) | entryVariable `notElem` [v, v'] = True
   valid (Transition v []               ) | v == entryVariable              = True
-  valid (Transition _ _                )                                   = False
+  valid _ = False
 
 variables :: Grammar -> [Variable]
 variables g = nub $ entryVariable g 
