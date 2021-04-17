@@ -36,6 +36,17 @@ removeLongRHS g' | all (<= 2) (length . to <$> rules g') = g'
           newRule = Rule newVar (tail $ to r)
           headRule = Rule (from r) [head $ to r, Left newVar]
 
+removeEpsilons :: Grammar -> Grammar
+removeEpsilons g = g {rules=filter (\r -> to r /= [] || from r == entryVar g) rules'}
+  where rules' = rules g >>= \r -> Rule (from r) <$> nullPs (to r)
+        nullPs (Left e : xs) | isNullable g e = nullPs xs ++ ((Left e :) <$> nullPs xs)
+        nullPs (x:xs) = (x :) <$> nullPs xs
+        nullPs [] = [[]]
+        -- nullPowerset example with A and B nullables (not in order): 
+        --   nullPs aSAxB = [aSAxB, aSAx, aSxB, aSx]
+
+
+
 -- Makes sure not to have name conflict
 createNewVar :: [Var] -> String -> Var
 createNewVar vs s | Var s `elem` vs = createNewVar vs (s ++ "_0")
