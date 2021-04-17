@@ -9,7 +9,7 @@ data Terminal = Terminal String
 data Rule = Rule {
   from :: Var,
   to   :: [Either Var Terminal]
-}
+} deriving Eq
 
 data Grammar = Grammar {
   rules    :: [Rule],

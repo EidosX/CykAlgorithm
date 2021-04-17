@@ -18,3 +18,11 @@ vars g = nub $ entryVar g
 
 terminals :: Grammar -> [Terminal]
 terminals g = nub $ rules g >>= rights . to
+
+nullables :: Grammar -> [Var]
+nullables g = filter (isNullable g) $ vars g
+
+isNullable :: Grammar -> Var -> Bool
+isNullable g@Grammar{rules} v = (Rule v [] ` elem` rules) 
+                              || any (all $ isNullable g) rules'
+  where rules' = [lefts $ to r | r <- rules, from r == v, all (/= Left v) (to r), null . rights $ to r]
