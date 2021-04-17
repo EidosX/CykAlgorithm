@@ -4,8 +4,8 @@ import Grammar.Types
 import Grammar.Grammar
 
 makeCNF :: Grammar -> Grammar
-makeCNF = undefined
-        . undefined
+makeCNF = removeUnitRules
+        . removeEpsilons
         . removeLongRHS
         . removeNonSolitaryTerminals
         . removeEntrySymbolFromRHS
@@ -45,6 +45,11 @@ removeEpsilons g = g {rules=filter (\r -> to r /= [] || from r == entryVar g) ru
         -- nullPowerset example with A and B nullables (not in order): 
         --   nullPs aSAxB = [aSAxB, aSAx, aSxB, aSx]
 
+removeUnitRules :: Grammar -> Grammar
+removeUnitRules = until (all isNotUnitRule . rules) (\g -> g {rules=rules g >>= f g})
+  where f g (Rule from [Left var]) = [Rule from to' | Rule from' to' <- rules g, from' == var]
+        f _ r = [r]
+        isNotUnitRule (Rule _ [Left _]) = False; isNotUnitRule _ = True
 
 
 -- Makes sure not to have name conflict
