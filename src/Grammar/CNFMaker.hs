@@ -39,7 +39,7 @@ removeLongRHS g' | all (<= 2) (length . to <$> rules g') = g'
 removeEpsilons :: Grammar -> Grammar
 removeEpsilons g = g {rules=filter (\r -> to r /= [] || from r == entryVar g) rules'}
   where rules' = rules g >>= \r -> Rule (from r) <$> nullPs (to r)
-        nullPs (Left e : xs) | isNullable g e = nullPs xs ++ ((Left e :) <$> nullPs xs)
+        nullPs (Left e : xs) | nullable g e = nullPs xs ++ ((Left e :) <$> nullPs xs)
         nullPs (x:xs) = (x :) <$> nullPs xs
         nullPs [] = [[]]
         -- nullPowerset example with A and B nullables (not in order): 

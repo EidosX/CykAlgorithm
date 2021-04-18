@@ -20,15 +20,10 @@ terminals :: Grammar -> [Terminal]
 terminals g = nub $ rules g >>= rights . to
 
 nullables :: Grammar -> [Var]
-nullables g = filter (isNullable g) $ vars g
+nullables g = filter (nullable g) $ vars g
 
--- isNullable :: Grammar -> Var -> Bool
--- isNullable g@Grammar{rules} v = (Rule v [] ` elem` rules) 
---                               || any (all $ isNullable g) rules'
---   where rules' = [lefts $ to r | r <- rules, from r == v, all (/= Left v) (to r), null . rights $ to r]
-
-isNullable :: Grammar -> Var -> Bool
-isNullable g v = (Rule v [] ` elem` rules g) 
-                 || any (all $ isNullable g') rules'
+nullable :: Grammar -> Var -> Bool
+nullable g v = (Rule v [] ` elem` rules g) 
+                 || any (all $ nullable g') rules'
   where rules' = [lefts $ to r | r <- rules g', from r == v, null . rights $ to r]
         g' = g {rules=filter (all (/= Left v) . to) $ rules g}
