@@ -3,15 +3,16 @@ module Main where
 import System.Environment (getArgs) 
 import System.Exit (exitFailure) 
 import Control.Monad (when)
-import Automata.Parser
-import Automata.Automata
-  
+
+import Grammar.CNFMaker (makeCNF)
+import Grammar.Parser (parseGrammar)
+import Grammar.CYK
+
 main :: IO ()
 main = do
   args <- getArgs
   when (length args /= 2) $ putStrLn "INVALID ARGUMENTS" >> exitFailure
 
   let [path, expr] = args
-  automata <- parseAutomata <$> readFile path
-  if not $ isDeterministic automata then putStrLn "ERROR"
-  else putStrLn $ if accepts automata expr then "YES" else "NO"
+  grammar <- makeCNF . parseGrammar <$> readFile path
+  putStrLn $ if cykStr grammar expr then "YES" else "NO"
